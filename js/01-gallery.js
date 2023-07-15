@@ -13,3 +13,23 @@ const galleryImages = galleryItems
   )
   .join("");
 gallery.insertAdjacentHTML("beforeend", galleryImages);
+
+gallery.addEventListener("click", (e) => {
+  e.preventDefault();
+  if (e.target.nodeName !== "IMG") return;
+  const handleEscapeKey = (e) => {
+    if (e.key === "Escape") instance.close();
+  };
+  const instance = basicLightbox.create(
+    `<img src="${e.target.dataset.source}">`,
+    {
+      onShow: () => {
+        document.addEventListener("keydown", handleEscapeKey);
+      },
+      onClose: () => {
+        document.removeEventListener("keydown", handleEscapeKey);
+      },
+    }
+  );
+  instance.show();
+});
